@@ -1,0 +1,30 @@
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8080:80/tcp" # Web UI用ポート (80番が競合する場合を考慮)
+    environment:
+      TZ: 'Asia/Tokyo'
+      # 非常に強力なパスワードに変更してください
+      WEBPASSWORD: "pass"
+    volumes:
+      - './etc-pihole:/etc/pihole'
+      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+    # 推奨される capability
+    cap_add:
+      - NET_ADMIN
+    dns:
+      - 1.1.1.1
+    restart: unless-stopped
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    volumes:
+      - ./uptime-kuma-data:/app/data
+    ports:
+      - "3001:3001" # Web UI用ポート
+    restart: unless-stopped
