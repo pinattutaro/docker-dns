@@ -95,9 +95,9 @@ graph TD
     # GPGキーを保存するディレクトリを作成
     sudo install -m 0755 -d /etc/apt/keyrings
     # DockerのGPGキーをダウンロードし、キーリングに変換して保存
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
     # すべてのユーザーがGPGキーを読み取れるように権限を設定
-    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.asc
     ```
 
 4.  **Dockerのaptリポジトリ設定**
@@ -105,7 +105,7 @@ graph TD
     ```bash
     # OSのアーキテクチャとバージョン情報を元に、Dockerのリポジトリ情報をsources.listファイルに書き込む
     echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
       $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
       sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     ```
@@ -116,7 +116,7 @@ graph TD
     # 追加したリポジトリを含めてパッケージリストを再度更新
     sudo apt update
     # Docker関連パッケージ一式をインストール
-    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     ```
 
 6.  **Docker Composeのインストール確認**
@@ -208,6 +208,7 @@ graph TD
     `docker-compose.yml` で設定した `WEBPASSWORD` を使ってログインし、詳細な設定や統計情報を確認できることを確かめる。
 3.  **DNS設定と広告ブロックのテスト**
     - PCやスマートフォンのネットワーク設定を開き、DNSサーバのアドレスをPi-holeを起動したサーバのIPアドレスに変更する。
+    - Pi-holeの管理画面で、クエリログにクライアントからのDNS要求が表示されていることを確認する。
     - 広告が多く表示されるWebサイトにアクセスし、広告が非表示になることを確認する。
         - **DailyMail**: [https://www.dailymail.co.uk/](https://www.dailymail.co.uk/)
         - **Block Ads!**: [https://blockads.fivefilters.org/](https://blockads.fivefilters.org/)
@@ -218,8 +219,6 @@ graph TD
 | ![blockAds-before.png](./img/blockAds-before.png) | ![blockAds-after.png](./img/blockAds-after.png) |
 | **DailyMail** | **DailyMail** |
 | ![dailymail-before.png](./img/dailymail-before.png) | ![dailymail-after.png](./img/dailymail-after.png) |
-
-    - Pi-holeの管理画面で、クエリログにクライアントからのDNS要求が表示されていることを確認する。
 
 ### 5.2. Uptime Kumaの確認
 
