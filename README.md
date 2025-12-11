@@ -211,6 +211,14 @@ graph TD
     - 広告が多く表示されるWebサイトにアクセスし、広告が非表示になることを確認する。
         - **DailyMail**: [https://www.dailymail.co.uk/](https://www.dailymail.co.uk/)
         - **Block Ads!**: [https://blockads.fivefilters.org/](https://blockads.fivefilters.org/)
+
+| ブロック前 | ブロック後 |
+|:---:|:---:|
+| **Block Ads!** | **Block Ads!** |
+| ![blockAds-before.png](./img/blockAds-before.png) | ![blockAds-after.png](./img/blockAds-after.png) |
+| **DailyMail** | **DailyMail** |
+| ![dailymail-before.png](./img/dailymail-before.png) | ![dailymail-after.png](./img/dailymail-after.png) |
+
     - Pi-holeの管理画面で、クエリログにクライアントからのDNS要求が表示されていることを確認する。
 
 ### 5.2. Uptime Kumaの確認
